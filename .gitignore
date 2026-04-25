@@ -36,10 +36,8 @@ yarn-error.log*
 # vercel
 .vercel
 
-# local-only docs (local-only)
+# local-only
 /docs/
-
-# Claude Code project config & guidance (local-only)
 /.claude/
 /CLAUDE.md
 
