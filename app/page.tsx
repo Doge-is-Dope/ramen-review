@@ -1,5 +1,6 @@
 import { ArticleBody } from "@/components/article-body";
 import { ArticleHero } from "@/components/article-hero";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { sections } from "@/content/article";
 import { profile } from "@/content/profile";
 
@@ -8,7 +9,10 @@ export default function Home() {
     <>
       <div className="top-bar">
         <span className="top-bar__name">{profile.name}</span>
-        <span>{profile.reviewPeriod}</span>
+        <span className="top-bar__right">
+          <span>{profile.reviewPeriod}</span>
+          <ThemeToggle />
+        </span>
       </div>
 
       <main className="article-shell">
