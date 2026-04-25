@@ -33,11 +33,6 @@ export const sections: ArticleSection[] = [
       "Letting a remote agent use the user's local browser was the single most-discussed design problem in the project. I evaluated five paths in Notion — DevTools MCP, a network tunnel, a custom bridge, an extension paired with WebSocket RPC, and a Chromium-API-driven approach — and picked the extension + WebSocket route. It kept browser permissions in the user's hand, stayed inside Chrome's security model, and let me ship a working slice without operating shared infrastructure.",
       "On the backend, I added a WebSocket relay with a one-time ticket handshake, browser-only routing safeguards, and live tool updates so the agent's view of browser state matches the user's. On the frontend, the extension surfaces controlled-tab context and writes it into ephemeral chat context so the agent can act on whatever page the user is currently looking at. I later layered a browser-use subagent on top, which delegates to a specialised browser agent through the same registry.",
     ],
-    figure: {
-      src: "/evidence/ramen-web-settings.png",
-      alt: "RAMEN Web settings panel showing the browser automation configuration.",
-      caption: "Settings surface for browser automation, where users approve and inspect what the agent can control.",
-    },
   },
   {
     id: "chat-product",
@@ -47,11 +42,6 @@ export const sections: ArticleSection[] = [
       "Most of the chat polish lives in the composer: keyboard shortcuts, prompt suggestions, attachment chips, a slash menu, inline tab mentions with favicons, queued sends, and a stop control that maps cleanly onto the streaming-abort protocol. Markdown and Streamdown render the assistant's text; tool indicators and parallel-tool views render its actions. The smaller details — focus handling, auto-scroll, mobile layout, long-text overflow — are what make the surface feel finished.",
       "Automation visibility was its own thread. I added a CDP session indicator and a glowing frame around the controlled tab so users could see when the agent was actually driving their browser; the frame eventually became a WebGL pulsing-border shader because the CSS version felt too quiet next to the rest of the UI.",
     ],
-    figure: {
-      src: "/evidence/ramen-web-chat.png",
-      alt: "RAMEN Web chat surface showing the composer, message stream, and tool indicators.",
-      caption: "Main chat surface with composer, message stream, and tool indicators.",
-    },
   },
   {
     id: "quality",
