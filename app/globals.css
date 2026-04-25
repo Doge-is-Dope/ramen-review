@@ -196,8 +196,16 @@
   }
 
   .site-footer__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
     max-width: var(--measure-shell);
     margin: 0 auto;
+  }
+
+  .site-footer__updated {
+    text-align: right;
   }
 
   .tokens-page {

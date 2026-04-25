@@ -19,7 +19,12 @@ export default function Home() {
 
       <footer className="site-footer">
         <div className="site-footer__inner">
-          {profile.name} · {profile.role} · Last updated {profile.lastUpdated}
+          <span>
+            {profile.name} · {profile.role}
+          </span>
+          <span className="site-footer__updated">
+            Last updated {profile.lastUpdated}
+          </span>
         </div>
       </footer>
     </>
