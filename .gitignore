@@ -39,6 +39,10 @@ yarn-error.log*
 # local-only docs (local-only)
 /docs/
 
+# Claude Code project config & guidance (local-only)
+/.claude/
+/CLAUDE.md
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
