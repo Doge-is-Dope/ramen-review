@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <>
       <div className="top-bar">
-        <span className="top-bar__name">{profile.name}</span>
+        <span className="top-bar__name">RAMEN</span>
         <ThemeToggle />
       </div>
 
@@ -18,14 +18,12 @@ export default function Home() {
       </main>
 
       <footer className="site-footer">
-        <div className="site-footer__inner">
-          <span className="site-footer__name">
-            {profile.name} · {profile.role}
-          </span>
-          <span className="site-footer__updated">
-            Last updated {profile.lastUpdated}
-          </span>
-        </div>
+        <span className="site-footer__name">
+          {profile.name} · {profile.role}
+        </span>
+        <span className="site-footer__updated">
+          Last updated {profile.lastUpdated}
+        </span>
       </footer>
     </>
   );

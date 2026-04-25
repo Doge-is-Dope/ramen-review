@@ -188,20 +188,17 @@
   }
 
   .site-footer {
-    border-top: 1px solid var(--rule);
-    padding: 1.25rem var(--space-gutter);
-    font-size: var(--fs-meta);
-    font-weight: var(--fw-medium);
-    color: var(--muted);
-  }
-
-  .site-footer__inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
     max-width: var(--measure-shell);
     margin: 0 auto;
+    padding: 1.25rem var(--space-gutter);
+    border-top: 1px solid var(--rule);
+    font-size: var(--fs-meta);
+    font-weight: var(--fw-medium);
+    color: var(--muted);
   }
 
   .site-footer__name {
