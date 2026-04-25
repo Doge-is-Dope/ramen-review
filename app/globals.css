@@ -52,12 +52,6 @@
     color: var(--fg);
   }
 
-  .top-bar__right {
-    display: inline-flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
   .top-bar__toggle {
     display: inline-flex;
     align-items: center;

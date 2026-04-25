@@ -1,7 +1,7 @@
 export type Profile = {
   name: string;
   role: string;
-  reviewPeriod: string;
+  lastUpdated: string;
   kicker: string;
   headline: string;
   dek: string;

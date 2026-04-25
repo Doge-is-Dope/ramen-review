@@ -4,8 +4,6 @@ export function ArticleHero({ profile }: { profile: Profile }) {
   return (
     <header className="article-hero">
       <p className="article-hero__meta">
-        <span>{profile.reviewPeriod}</span>
-        <span aria-hidden>·</span>
         <span>{profile.kicker}</span>
       </p>
       <h1 className="article-hero__title">{profile.headline}</h1>

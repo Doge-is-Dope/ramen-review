@@ -9,10 +9,7 @@ export default function Home() {
     <>
       <div className="top-bar">
         <span className="top-bar__name">{profile.name}</span>
-        <span className="top-bar__right">
-          <span>{profile.reviewPeriod}</span>
-          <ThemeToggle />
-        </span>
+        <ThemeToggle />
       </div>
 
       <main className="article-shell">
@@ -22,7 +19,7 @@ export default function Home() {
 
       <footer className="site-footer">
         <div className="site-footer__inner">
-          {profile.name} · {profile.role}
+          {profile.name} · {profile.role} · Last updated {profile.lastUpdated}
         </div>
       </footer>
     </>
