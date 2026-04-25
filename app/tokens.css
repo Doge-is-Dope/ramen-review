@@ -10,6 +10,8 @@
   --selection-fg: var(--bg);
 
   --font-sans: var(--site-font-sans);
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    monospace;
 
   --fs-caption: 0.875rem;
   --fs-meta: 0.875rem;
@@ -39,13 +41,6 @@
 
   --radius-xs: 0.25rem;
   --radius-sm: 0.375rem;
-}
-
-[data-theme="light"] {
-  --bg: #ffffff;
-  --fg: #000000;
-  --muted: #6b7280;
-  --rule: #e5e7eb;
 }
 
 [data-theme="dark"] {

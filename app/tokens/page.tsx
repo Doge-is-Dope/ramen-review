@@ -32,7 +32,6 @@ export default function TokensPage() {
             Color
           </h2>
           <ColorMatrix mode="light" />
-          <div style={{ height: "1.5rem" }} aria-hidden />
           <ColorMatrix mode="dark" />
         </section>
 

@@ -1,10 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-type Theme = "light" | "dark";
-
-const STORAGE_KEY = "theme";
+import { STORAGE_KEY, type Theme } from "@/lib/theme";
 
 function readTheme(): Theme {
   if (typeof document === "undefined") return "light";
@@ -13,12 +10,10 @@ function readTheme(): Theme {
 }
 
 export function ThemeToggle() {
-  const [mounted, setMounted] = useState(false);
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme | null>(null);
 
   useEffect(() => {
     setTheme(readTheme());
-    setMounted(true);
 
     const media = window.matchMedia("(prefers-color-scheme: dark)");
     const handleSystem = (event: MediaQueryListEvent) => {
@@ -31,7 +26,7 @@ export function ThemeToggle() {
     return () => media.removeEventListener("change", handleSystem);
   }, []);
 
-  if (!mounted) {
+  if (theme === null) {
     return (
       <span aria-hidden className="top-bar__toggle" style={{ visibility: "hidden" }} />
     );
@@ -44,9 +39,7 @@ export function ThemeToggle() {
     document.documentElement.setAttribute("data-theme", next);
     try {
       localStorage.setItem(STORAGE_KEY, next);
-    } catch {
-      // localStorage may be unavailable (private mode); ignore.
-    }
+    } catch {}
     setTheme(next);
   };
 
