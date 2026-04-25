@@ -2,6 +2,7 @@
   "name": "ramen-portfolio",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.32.1",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -20,12 +21,7 @@
     "tailwindcss": "^4",
     "typescript": "^5"
   },
-  "ignoreScripts": [
-    "sharp",
-    "unrs-resolver"
-  ],
-  "trustedDependencies": [
-    "sharp",
-    "unrs-resolver"
-  ]
+  "pnpm": {
+    "onlyBuiltDependencies": ["sharp"]
+  }
 }
