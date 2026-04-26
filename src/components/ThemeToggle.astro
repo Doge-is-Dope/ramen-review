@@ -1,0 +1,106 @@
+---
+---
+
+<button
+  type="button"
+  class="top-bar__toggle"
+  aria-label="Toggle color theme"
+  data-theme-toggle
+>
+  <svg
+    class="top-bar__toggle-icon"
+    data-theme-icon="sun"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4"></circle>
+    <path
+      d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
+    ></path>
+  </svg>
+  <svg
+    class="top-bar__toggle-icon"
+    data-theme-icon="moon"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"></path>
+  </svg>
+</button>
+
+<style>
+  .top-bar__toggle-icon {
+    display: none;
+  }
+
+  :global([data-theme="light"]) .top-bar__toggle-icon[data-theme-icon="moon"] {
+    display: block;
+  }
+
+  :global([data-theme="dark"]) .top-bar__toggle-icon[data-theme-icon="sun"] {
+    display: block;
+  }
+</style>
+
+<script>
+  const STORAGE_KEY = "theme";
+  const root = document.documentElement;
+  const button = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
+
+  type DocumentWithVT = Document & {
+    startViewTransition?: (cb: () => void) => unknown;
+  };
+
+  function applyTheme(next: "light" | "dark") {
+    const update = () => {
+      root.setAttribute("data-theme", next);
+      syncLabel(next);
+    };
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    const start = (document as DocumentWithVT).startViewTransition;
+    if (!reduceMotion && typeof start === "function") {
+      start.call(document, update);
+    } else {
+      update();
+    }
+  }
+
+  function syncLabel(theme: string) {
+    if (!button) return;
+    const next = theme === "dark" ? "light" : "dark";
+    button.setAttribute("aria-label", `Switch to ${next} theme`);
+    button.setAttribute("aria-pressed", String(theme === "dark"));
+    button.title = `Switch to ${next} theme`;
+  }
+
+  syncLabel(root.getAttribute("data-theme") ?? "light");
+
+  button?.addEventListener("click", () => {
+    const current = root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+    const next = current === "dark" ? "light" : "dark";
+    applyTheme(next);
+    try {
+      localStorage.setItem(STORAGE_KEY, next);
+    } catch {}
+  });
+
+  const media = window.matchMedia("(prefers-color-scheme: dark)");
+  media.addEventListener("change", (event) => {
+    try {
+      if (localStorage.getItem(STORAGE_KEY)) return;
+    } catch {}
+    applyTheme(event.matches ? "dark" : "light");
+  });
+</script>

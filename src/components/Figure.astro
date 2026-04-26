@@ -1,0 +1,21 @@
+---
+import type { FigureProps } from "@/lib/types";
+import { withBase } from "@/lib/url";
+
+type Props = FigureProps;
+
+const { src, alt, caption, width, height } = Astro.props;
+---
+
+<figure class="article-figure">
+  <img
+    src={withBase(src)}
+    alt={alt}
+    width={width}
+    height={height}
+    loading="lazy"
+    decoding="async"
+    class="article-figure__image"
+  />
+  <figcaption class="article-figure__caption">{caption}</figcaption>
+</figure>

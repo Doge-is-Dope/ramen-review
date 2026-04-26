@@ -1,25 +1,9 @@
-export type ColorToken = {
-  name: string;
-  label: string;
-  light: string;
-  dark: string;
-};
-
-export type TypeToken = {
-  name: string;
-  label: string;
-  sample: string;
-};
-
-export type SpaceToken = {
-  name: string;
-  label: string;
-};
-
-export type RadiusToken = {
-  name: string;
-  label: string;
-};
+import type {
+  ColorToken,
+  RadiusToken,
+  SpaceToken,
+  TypeToken,
+} from "@/lib/types";
 
 export const colorTokens: readonly ColorToken[] = [
   { name: "--bg", label: "Background", light: "#ffffff", dark: "#0a0a0a" },

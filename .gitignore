@@ -13,12 +13,9 @@
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
-
-# production
-/build
+# astro
+/.astro/
+/dist/
 
 # misc
 .DS_Store
@@ -39,8 +36,9 @@ yarn-error.log*
 # local-only
 /docs/
 /.claude/
+/.agents/
 /CLAUDE.md
+AGENTS.md
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts

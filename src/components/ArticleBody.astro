@@ -1,0 +1,31 @@
+---
+import Figure from "@/components/Figure.astro";
+import type { ArticleSection } from "@/lib/types";
+
+type Props = {
+  sections: ArticleSection[];
+};
+
+const { sections } = Astro.props;
+---
+
+<div class="article-body">
+  {
+    sections.map((section) => (
+      <section id={section.id} class="article-section">
+        <h2 class="article-section__title">{section.title}</h2>
+        {section.paragraphs.map((paragraph) => (
+          <p class="article-section__paragraph">{paragraph}</p>
+        ))}
+        {section.items && section.items.length > 0 ? (
+          <ul class="article-section__list">
+            {section.items.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        ) : null}
+        {section.figure ? <Figure {...section.figure} /> : null}
+      </section>
+    ))
+  }
+</div>

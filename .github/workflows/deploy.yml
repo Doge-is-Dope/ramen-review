@@ -33,13 +33,13 @@ jobs:
 
       - run: pnpm build
 
-      - run: touch out/.nojekyll
+      - run: touch dist/.nojekyll
 
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: out
+          path: dist
 
   deploy:
     needs: build

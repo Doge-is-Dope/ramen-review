@@ -1,0 +1,112 @@
+---
+import {
+  colorTokens,
+  radiusTokens,
+  spaceTokens,
+  typeTokens,
+} from "@/lib/tokens";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+type Mode = "light" | "dark";
+
+const title = "Design tokens · Clement Liang";
+const description = "Internal design-token reference for the RAMEN portfolio.";
+const modes: readonly Mode[] = ["light", "dark"];
+---
+
+<BaseLayout title={title} description={description} robots="noindex,nofollow">
+  <main class="article-shell">
+    <div class="tokens-page">
+      <header>
+        <h1 class="tokens-page__heading">Design tokens</h1>
+        <p class="tokens-page__intro">
+          Single source of truth for color, typography, spacing, and radius.
+          Light and dark palettes are previewed side-by-side; everything else
+          renders in the light site theme.
+        </p>
+      </header>
+
+      <section class="tokens-page__group" aria-labelledby="tokens-color">
+        <h2 id="tokens-color" class="tokens-page__heading">Color</h2>
+        {
+          modes.map((mode) => (
+            <div class="tokens-grid">
+              {colorTokens.map((token) => {
+                const value = mode === "dark" ? token.dark : token.light;
+                return (
+                  <div class="tokens-swatch">
+                    <div
+                      class="tokens-swatch__chip"
+                      style={`background: ${value}`}
+                      aria-hidden="true"
+                    />
+                    <span class="tokens-swatch__name">{token.name}</span>
+                    <span class="tokens-swatch__value">{value}</span>
+                    <span class="tokens-swatch__label">
+                      {token.label} · {mode}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          ))
+        }
+      </section>
+
+      <section class="tokens-page__group" aria-labelledby="tokens-type">
+        <h2 id="tokens-type" class="tokens-page__heading">Typography</h2>
+        <div class="tokens-type">
+          {
+            typeTokens.map((token) => (
+              <div class="tokens-type__row">
+                <div
+                  class="tokens-type__sample"
+                  style={`font-size: var(${token.name})`}
+                >
+                  {token.sample}
+                </div>
+                <div class="tokens-type__meta">
+                  <span>{token.name}</span>
+                  <span> · {token.label}</span>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="tokens-page__group" aria-labelledby="tokens-space">
+        <h2 id="tokens-space" class="tokens-page__heading">Spacing</h2>
+        {
+          spaceTokens.map((token) => (
+            <div class="tokens-row">
+              <div class="tokens-row__bar" style={`width: var(${token.name})`} />
+              <div class="tokens-row__meta">
+                <span>{token.name}</span>
+                <span>{token.label}</span>
+              </div>
+            </div>
+          ))
+        }
+      </section>
+
+      <section class="tokens-page__group" aria-labelledby="tokens-radius">
+        <h2 id="tokens-radius" class="tokens-page__heading">Radius</h2>
+        {
+          radiusTokens.map((token) => (
+            <div class="tokens-row">
+              <div
+                class="tokens-row__square"
+                style={`border-radius: var(${token.name})`}
+              />
+              <div class="tokens-row__meta">
+                <span>{token.name}</span>
+                <span>{token.label}</span>
+              </div>
+            </div>
+          ))
+        }
+      </section>
+    </div>
+  </main>
+</BaseLayout>

@@ -1,0 +1,19 @@
+---
+import type { Profile } from "@/lib/types";
+
+type Props = {
+  profile: Profile;
+};
+
+const { profile } = Astro.props;
+---
+
+<header class="article-hero">
+  <p class="article-hero__meta">
+    <span>{profile.reviewPeriod}</span>
+    <span aria-hidden="true">&middot;</span>
+    <span>{profile.kicker}</span>
+  </p>
+  <h1 class="article-hero__title">{profile.headline}</h1>
+  <p class="article-hero__dek">{profile.dek}</p>
+</header>

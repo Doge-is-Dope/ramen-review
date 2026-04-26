@@ -1,0 +1,29 @@
+---
+import ArticleBody from "@/components/ArticleBody.astro";
+import ArticleHero from "@/components/ArticleHero.astro";
+import ThemeToggle from "@/components/ThemeToggle.astro";
+import { sections } from "@/data/article";
+import { profile } from "@/data/profile";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const title = "Clement Liang · RAMEN portfolio";
+const description =
+  "How I planned, designed, built, and validated RAMEN — an agent platform with a chat product and Chrome-extension companion.";
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="top-bar">
+    <span class="top-bar__name">RAMEN</span>
+    <ThemeToggle />
+  </div>
+
+  <main class="article-shell">
+    <ArticleHero profile={profile} />
+    <ArticleBody sections={sections} />
+  </main>
+
+  <footer class="site-footer">
+    <span class="site-footer__name">{profile.name} · {profile.role}</span>
+    <span class="site-footer__updated">Last updated {profile.lastUpdated}</span>
+  </footer>
+</BaseLayout>
