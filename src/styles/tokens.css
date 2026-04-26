@@ -8,6 +8,7 @@
   --rule: #e5e7eb;
   --selection-bg: var(--fg);
   --selection-fg: var(--bg);
+  --code-bg: rgba(0, 0, 0, 0.06);
 
   --font-sans: var(--site-font-sans);
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
@@ -48,4 +49,5 @@
   --fg: #f4f4f5;
   --muted: #9ca3af;
   --rule: #262626;
+  --code-bg: rgba(255, 255, 255, 0.08);
 }

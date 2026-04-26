@@ -1,4 +1,5 @@
 ---
+import { splitInline } from "@/lib/inline";
 import type { FigureProps } from "@/lib/types";
 import { withBase } from "@/lib/url";
 
@@ -17,5 +18,9 @@ const { src, alt, caption, width, height } = Astro.props;
     decoding="async"
     class="article-figure__image"
   />
-  <figcaption class="article-figure__caption">{caption}</figcaption>
+  <figcaption class="article-figure__caption">
+    {splitInline(caption).map((part) =>
+      typeof part === "string" ? part : <code>{part.code}</code>
+    )}
+  </figcaption>
 </figure>

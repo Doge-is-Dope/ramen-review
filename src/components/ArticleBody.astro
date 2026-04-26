@@ -1,5 +1,6 @@
 ---
 import Figure from "@/components/Figure.astro";
+import { splitInline } from "@/lib/inline";
 import type { ArticleSection } from "@/lib/types";
 
 type Props = {
@@ -15,12 +16,20 @@ const { sections } = Astro.props;
       <section id={section.id} class="article-section">
         <h2 class="article-section__title">{section.title}</h2>
         {section.paragraphs.map((paragraph) => (
-          <p class="article-section__paragraph">{paragraph}</p>
+          <p class="article-section__paragraph">
+            {splitInline(paragraph).map((part) =>
+              typeof part === "string" ? part : <code>{part.code}</code>
+            )}
+          </p>
         ))}
         {section.items && section.items.length > 0 ? (
           <ul class="article-section__list">
             {section.items.map((item) => (
-              <li>{item}</li>
+              <li>
+                {splitInline(item).map((part) =>
+                  typeof part === "string" ? part : <code>{part.code}</code>
+                )}
+              </li>
             ))}
           </ul>
         ) : null}
