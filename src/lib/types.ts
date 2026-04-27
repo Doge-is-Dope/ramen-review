@@ -8,7 +8,7 @@ export type Profile = {
   dek: string;
 };
 
-export type FigureProps = {
+export type ArticleFigure = {
   src: string;
   alt: string;
   caption: string;
@@ -21,7 +21,7 @@ export type ArticleSection = {
   title: string;
   paragraphs: string[];
   items?: string[];
-  figure?: FigureProps;
+  figure?: ArticleFigure;
 };
 
 export type ColorToken = {
@@ -45,4 +45,26 @@ export type SpaceToken = {
 export type RadiusToken = {
   name: string;
   label: string;
+};
+
+export type WorkCategory =
+  | "Agent loop"
+  | "Streaming"
+  | "Browser automation"
+  | "Chat UI"
+  | "Architecture"
+  | "Performance";
+
+export type WorkSurface = "Backend" | "Frontend";
+
+export type YearMonth = `${number}-${number}`;
+
+export type WorkEntry = {
+  id: string;
+  title: string;
+  summary: string;
+  category: WorkCategory;
+  surface: WorkSurface;
+  shippedAt: YearMonth;
+  updatedAt?: YearMonth;
 };

@@ -25,6 +25,11 @@ export const typeTokens: readonly TypeToken[] = [
     label: "Body",
     sample: "Body copy carries the weight of the article.",
   },
+  {
+    name: "--fs-row-title",
+    label: "Row title",
+    sample: "List row heading",
+  },
   { name: "--fs-meta", label: "Meta", sample: "Metadata and labels" },
   { name: "--fs-caption", label: "Caption", sample: "Figure caption" },
 ] as const;

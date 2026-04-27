@@ -54,20 +54,19 @@
 
 <script>
   const STORAGE_KEY = "theme";
-  const root = document.documentElement;
-  const button = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
 
   type DocumentWithVT = Document & {
     startViewTransition?: (cb: () => void) => unknown;
   };
 
   function applyTheme(next: "light" | "dark") {
+    const root = document.documentElement;
     const update = () => {
       root.setAttribute("data-theme", next);
       syncLabel(next);
     };
     const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
+      "(prefers-reduced-motion: reduce)",
     ).matches;
     const start = (document as DocumentWithVT).startViewTransition;
     if (!reduceMotion && typeof start === "function") {
@@ -78,6 +77,9 @@
   }
 
   function syncLabel(theme: string) {
+    const button = document.querySelector<HTMLButtonElement>(
+      "[data-theme-toggle]",
+    );
     if (!button) return;
     const next = theme === "dark" ? "light" : "dark";
     button.setAttribute("aria-label", `Switch to ${next} theme`);
@@ -85,10 +87,15 @@
     button.title = `Switch to ${next} theme`;
   }
 
-  syncLabel(root.getAttribute("data-theme") ?? "light");
-
-  button?.addEventListener("click", () => {
-    const current = root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const button = target.closest<HTMLButtonElement>("[data-theme-toggle]");
+    if (!button) return;
+    const current =
+      document.documentElement.getAttribute("data-theme") === "dark"
+        ? "dark"
+        : "light";
     const next = current === "dark" ? "light" : "dark";
     applyTheme(next);
     try {
@@ -103,4 +110,9 @@
     } catch {}
     applyTheme(event.matches ? "dark" : "light");
   });
+
+  const syncOnLoad = () =>
+    syncLabel(document.documentElement.getAttribute("data-theme") ?? "light");
+  syncOnLoad();
+  document.addEventListener("astro:page-load", syncOnLoad);
 </script>

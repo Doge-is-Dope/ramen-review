@@ -16,6 +16,7 @@
 
   --fs-caption: 0.875rem;
   --fs-meta: 0.875rem;
+  --fs-row-title: 1rem;
   --fs-body: 1.0625rem;
   --fs-dek: clamp(1.125rem, 0.95rem + 0.55vw, 1.225rem);
   --fs-h2: clamp(1.65rem, 1.3rem + 1.2vw, 1.875rem);

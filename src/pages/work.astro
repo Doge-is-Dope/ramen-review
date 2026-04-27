@@ -1,0 +1,241 @@
+---
+import TopBar from "@/components/TopBar.astro";
+import WorkFilterBar from "@/components/WorkFilterBar.astro";
+import WorkRow from "@/components/WorkRow.astro";
+import { profile } from "@/data/profile";
+import { work } from "@/data/work";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const title = "RAMEN Selected Work · Clement Liang";
+const description =
+  "Selected RAMEN project work by Clement Liang across agent architecture, streaming, browser automation, chat UX, and delivery quality.";
+const sortedWork = [...work].sort((a, b) => {
+  if (a.shippedAt === b.shippedAt) return a.id.localeCompare(b.id);
+  return b.shippedAt.localeCompare(a.shippedAt);
+});
+---
+
+<BaseLayout title={title} description={description}>
+  <TopBar activePage="selectedWork" />
+
+  <main class="work-page">
+    <header class="work-page__hero">
+      <h1 class="work-page__title">Selected Work</h1>
+      <p class="work-page__dek">
+        A curated index of the architecture, agent, streaming, browser, and
+        chat UI work behind RAMEN.
+      </p>
+    </header>
+
+    <WorkFilterBar />
+
+    <ol class="work-list" data-filter="all" data-sort="desc">
+      {sortedWork.map((entry) => <WorkRow entry={entry} />)}
+      <li class="work-list__empty" hidden>No entries in this category.</li>
+    </ol>
+  </main>
+
+  <footer class="site-footer">
+    <span class="site-footer__name">{profile.name} · {profile.role}</span>
+    <span class="site-footer__updated">Last updated {profile.lastUpdated}</span>
+  </footer>
+</BaseLayout>
+
+<script>
+  let abortController: AbortController | null = null;
+
+  function setupWorkPage() {
+    abortController?.abort();
+    abortController = new AbortController();
+    const signal = abortController.signal;
+
+    const list = document.querySelector<HTMLOListElement>(".work-list");
+    if (!list) return;
+
+    const filterChips = document.querySelectorAll<HTMLButtonElement>(
+      ".work-filter__chip",
+    );
+    const sortTrigger = document.querySelector<HTMLButtonElement>(
+      "[data-sort-trigger]",
+    );
+    const sortMenu = document.querySelector<HTMLUListElement>(
+      "[data-sort-menu]",
+    );
+    const sortCurrent = document.querySelector<HTMLSpanElement>(
+      "[data-sort-current]",
+    );
+    const sortOptions = sortMenu
+      ? Array.from(
+          sortMenu.querySelectorAll<HTMLLIElement>("[data-sort-option]"),
+        )
+      : [];
+
+    const workRows = Array.from(
+      list.querySelectorAll<HTMLLIElement>(".work-row"),
+    );
+    const emptyState = list.querySelector<HTMLLIElement>(".work-list__empty");
+
+    const applyFilter = (slug: string) => {
+      list.dataset.filter = slug;
+      let visible = 0;
+      for (const row of workRows) {
+        const match = slug === "all" || row.dataset.category === slug;
+        if (match) {
+          row.setAttribute("data-category-match", "");
+          visible += 1;
+        } else {
+          row.removeAttribute("data-category-match");
+        }
+      }
+      if (emptyState) emptyState.hidden = visible > 0;
+    };
+
+    const applySort = (direction: "asc" | "desc") => {
+      list.dataset.sort = direction;
+      const sortedRows = [...workRows].sort((a, b) => {
+        const dateA = a.dataset.shippedAt ?? "";
+        const dateB = b.dataset.shippedAt ?? "";
+        const idA = a.dataset.id ?? "";
+        const idB = b.dataset.id ?? "";
+        if (dateA === dateB) return idA.localeCompare(idB);
+        return direction === "desc"
+          ? dateB.localeCompare(dateA)
+          : dateA.localeCompare(dateB);
+      });
+      for (const row of sortedRows) list.appendChild(row);
+      if (emptyState) list.appendChild(emptyState);
+    };
+
+    for (const chip of filterChips) {
+      chip.addEventListener(
+        "click",
+        () => {
+          const slug = chip.dataset.filterTarget ?? "all";
+          for (const other of filterChips) {
+            const isActive = other === chip;
+            other.setAttribute("aria-selected", isActive ? "true" : "false");
+            if (isActive) {
+              other.setAttribute("aria-current", "true");
+            } else {
+              other.removeAttribute("aria-current");
+            }
+          }
+          applyFilter(slug);
+        },
+        { signal },
+      );
+    }
+
+    if (sortTrigger && sortMenu && sortCurrent && sortOptions.length) {
+      const openMenu = () => {
+        sortMenu.hidden = false;
+        sortTrigger.setAttribute("aria-expanded", "true");
+        const selected =
+          sortOptions.find(
+            (option) => option.getAttribute("aria-selected") === "true",
+          ) ?? sortOptions[0];
+        selected.focus();
+      };
+
+      const closeMenu = ({ returnFocus = true } = {}) => {
+        sortMenu.hidden = true;
+        sortTrigger.setAttribute("aria-expanded", "false");
+        if (returnFocus) sortTrigger.focus();
+      };
+
+      const selectOption = (option: HTMLLIElement) => {
+        for (const sortOption of sortOptions) {
+          sortOption.setAttribute(
+            "aria-selected",
+            sortOption === option ? "true" : "false",
+          );
+        }
+        const label = option.querySelector(".work-sort__option-label");
+        if (label) sortCurrent.textContent = label.textContent ?? "";
+        const direction = option.dataset.sortOption === "asc" ? "asc" : "desc";
+        applySort(direction);
+        closeMenu();
+      };
+
+      sortTrigger.addEventListener(
+        "click",
+        () => {
+          if (sortMenu.hidden) openMenu();
+          else closeMenu();
+        },
+        { signal },
+      );
+
+      sortTrigger.addEventListener(
+        "keydown",
+        (event) => {
+          if (
+            event.key === "ArrowDown" ||
+            event.key === "Enter" ||
+            event.key === " "
+          ) {
+            event.preventDefault();
+            openMenu();
+          }
+        },
+        { signal },
+      );
+
+      for (const option of sortOptions) {
+        option.addEventListener("click", () => selectOption(option), {
+          signal,
+        });
+        option.addEventListener(
+          "keydown",
+          (event) => {
+            const idx = sortOptions.indexOf(option);
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              selectOption(option);
+            } else if (event.key === "ArrowDown") {
+              event.preventDefault();
+              sortOptions[(idx + 1) % sortOptions.length].focus();
+            } else if (event.key === "ArrowUp") {
+              event.preventDefault();
+              sortOptions[
+                (idx - 1 + sortOptions.length) % sortOptions.length
+              ].focus();
+            } else if (event.key === "Home") {
+              event.preventDefault();
+              sortOptions[0].focus();
+            } else if (event.key === "End") {
+              event.preventDefault();
+              sortOptions[sortOptions.length - 1].focus();
+            } else if (event.key === "Escape") {
+              event.preventDefault();
+              closeMenu();
+            } else if (event.key === "Tab") {
+              closeMenu({ returnFocus: false });
+            }
+          },
+          { signal },
+        );
+      }
+
+      document.addEventListener(
+        "click",
+        (event) => {
+          if (sortMenu.hidden) return;
+          const target = event.target;
+          if (
+            target instanceof Node &&
+            (sortTrigger.contains(target) || sortMenu.contains(target))
+          ) {
+            return;
+          }
+          closeMenu({ returnFocus: false });
+        },
+        { signal },
+      );
+    }
+
+    applyFilter("all");
+  }
+
+  document.addEventListener("astro:page-load", setupWorkPage);
+</script>

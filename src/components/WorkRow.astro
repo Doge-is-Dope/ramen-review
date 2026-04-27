@@ -1,0 +1,28 @@
+---
+import { formatMonth } from "@/lib/date";
+import { slugify } from "@/data/work";
+import type { WorkEntry } from "@/lib/types";
+
+type Props = {
+  entry: WorkEntry;
+};
+
+const { entry } = Astro.props;
+const dateLabel = formatMonth(entry.shippedAt);
+---
+
+<li
+  class="work-row"
+  data-category={slugify(entry.category)}
+  data-shipped-at={entry.shippedAt}
+  data-id={entry.id}
+>
+  <div class="work-row__meta">
+    <span class="work-row__category">{entry.category}</span>
+    <span class="work-row__date">{entry.surface} · {dateLabel}</span>
+  </div>
+  <div class="work-row__body">
+    <span class="work-row__title">{entry.title}</span>
+    <p class="work-row__summary">{entry.summary}</p>
+  </div>
+</li>

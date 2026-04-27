@@ -1,21 +1,18 @@
 ---
 import ArticleBody from "@/components/ArticleBody.astro";
 import ArticleHero from "@/components/ArticleHero.astro";
-import ThemeToggle from "@/components/ThemeToggle.astro";
+import TopBar from "@/components/TopBar.astro";
 import { sections } from "@/data/article";
 import { profile } from "@/data/profile";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
-const title = "Clement Liang · RAMEN portfolio";
+const title = "RAMEN Case Study · Clement Liang";
 const description =
   "How I planned, designed, built, and validated RAMEN — an agent platform with a chat product and Chrome-extension companion.";
 ---
 
 <BaseLayout title={title} description={description}>
-  <div class="top-bar">
-    <span class="top-bar__name">RAMEN</span>
-    <ThemeToggle />
-  </div>
+  <TopBar activePage="caseStudy" />
 
   <main class="article-shell">
     <ArticleHero profile={profile} />

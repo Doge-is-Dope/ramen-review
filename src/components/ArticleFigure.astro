@@ -1,9 +1,9 @@
 ---
 import { splitInline } from "@/lib/inline";
-import type { FigureProps } from "@/lib/types";
+import type { ArticleFigure as ArticleFigureData } from "@/lib/types";
 import { withBase } from "@/lib/url";
 
-type Props = FigureProps;
+type Props = ArticleFigureData;
 
 const { src, alt, caption, width, height } = Astro.props;
 ---

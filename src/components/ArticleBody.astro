@@ -1,5 +1,5 @@
 ---
-import Figure from "@/components/Figure.astro";
+import ArticleFigure from "@/components/ArticleFigure.astro";
 import { splitInline } from "@/lib/inline";
 import type { ArticleSection } from "@/lib/types";
 
@@ -33,7 +33,7 @@ const { sections } = Astro.props;
             ))}
           </ul>
         ) : null}
-        {section.figure ? <Figure {...section.figure} /> : null}
+        {section.figure ? <ArticleFigure {...section.figure} /> : null}
       </section>
     ))
   }

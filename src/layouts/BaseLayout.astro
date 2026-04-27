@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import { withBase } from "@/lib/url";
 import "@/styles/global.css";
 
@@ -36,23 +37,28 @@ const favicon = withBase("/favicon.svg");
     />
     <script is:inline>
       (function () {
-        try {
-          var stored = localStorage.getItem("theme");
-          var prefersDark = window.matchMedia(
-            "(prefers-color-scheme: dark)"
-          ).matches;
-          var theme =
-            stored === "dark" || stored === "light"
-              ? stored
-              : prefersDark
-                ? "dark"
-                : "light";
-          document.documentElement.setAttribute("data-theme", theme);
-        } catch (e) {
-          document.documentElement.setAttribute("data-theme", "light");
+        function applyTheme() {
+          try {
+            var stored = localStorage.getItem("theme");
+            var prefersDark = window.matchMedia(
+              "(prefers-color-scheme: dark)"
+            ).matches;
+            var theme =
+              stored === "dark" || stored === "light"
+                ? stored
+                : prefersDark
+                  ? "dark"
+                  : "light";
+            document.documentElement.setAttribute("data-theme", theme);
+          } catch (e) {
+            document.documentElement.setAttribute("data-theme", "light");
+          }
         }
+        applyTheme();
+        document.addEventListener("astro:after-swap", applyTheme);
       })();
     </script>
+    <ClientRouter />
   </head>
   <body>
     <slot />

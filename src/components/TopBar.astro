@@ -1,0 +1,31 @@
+---
+import ThemeToggle from "@/components/ThemeToggle.astro";
+import { withBase } from "@/lib/url";
+
+type Props = {
+  activePage?: "caseStudy" | "selectedWork";
+};
+
+const { activePage } = Astro.props;
+---
+
+<div class="top-bar">
+  <a class="top-bar__name" href={withBase("/")}>RAMEN</a>
+  <nav class="top-bar__nav" aria-label="Primary">
+    <a
+      href={withBase("/")}
+      aria-current={activePage === "caseStudy" ? "page" : undefined}
+      class="top-bar__link"
+    >
+      Case Study
+    </a>
+    <a
+      href={withBase("/work/")}
+      aria-current={activePage === "selectedWork" ? "page" : undefined}
+      class="top-bar__link"
+    >
+      Selected Work
+    </a>
+  </nav>
+  <ThemeToggle />
+</div>
