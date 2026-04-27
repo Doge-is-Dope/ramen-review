@@ -478,7 +478,7 @@ code {
   color: var(--fg);
 }
 
-.work-filter__chip[aria-selected="true"] {
+.work-filter__chip[aria-pressed="true"] {
   color: var(--fg);
   font-weight: var(--fw-medium);
 }

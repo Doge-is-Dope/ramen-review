@@ -55,7 +55,10 @@ const favicon = withBase("/favicon.svg");
           }
         }
         applyTheme();
-        document.addEventListener("astro:after-swap", applyTheme);
+        if (!window.__themeBootstrap) {
+          window.__themeBootstrap = true;
+          document.addEventListener("astro:after-swap", applyTheme);
+        }
       })();
     </script>
     <ClientRouter />

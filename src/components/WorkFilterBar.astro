@@ -1,5 +1,5 @@
 ---
-import { slugify } from "@/data/work";
+import { slugify } from "@/lib/slug";
 import type { WorkCategory } from "@/lib/types";
 
 const workCategories: ("All" | WorkCategory)[] = [
@@ -21,7 +21,7 @@ const workSortOptions = [
 <div class="work-filter-bar">
   <div
     class="work-filter"
-    role="tablist"
+    role="group"
     aria-label="Filter work by category"
     data-filter-scroll-position="start"
   >
@@ -33,9 +33,8 @@ const workSortOptions = [
           <button
             type="button"
             class="work-filter__chip"
-            role="tab"
             data-filter-target={slug}
-            aria-selected={active ? "true" : "false"}
+            aria-pressed={active ? "true" : "false"}
             aria-current={active ? "true" : undefined}
           >
             {label}

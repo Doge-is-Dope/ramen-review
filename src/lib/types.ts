@@ -8,7 +8,7 @@ export type Profile = {
   dek: string;
 };
 
-export type ArticleFigure = {
+export type ArticleFigureProps = {
   src: string;
   alt: string;
   caption: string;
@@ -21,7 +21,7 @@ export type ArticleSection = {
   title: string;
   paragraphs: string[];
   items?: string[];
-  figure?: ArticleFigure;
+  figure?: ArticleFigureProps;
 };
 
 export type ColorToken = {

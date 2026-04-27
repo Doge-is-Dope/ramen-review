@@ -1,8 +1,8 @@
 ---
+import SiteFooter from "@/components/SiteFooter.astro";
 import TopBar from "@/components/TopBar.astro";
 import WorkFilterBar from "@/components/WorkFilterBar.astro";
 import WorkRow from "@/components/WorkRow.astro";
-import { profile } from "@/data/profile";
 import { work } from "@/data/work";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
@@ -31,14 +31,11 @@ const sortedWork = [...work].sort((a, b) => {
 
     <ol class="work-list" data-filter="all" data-sort="desc">
       {sortedWork.map((entry) => <WorkRow entry={entry} />)}
-      <li class="work-list__empty" hidden>No entries in this category.</li>
+      <li class="work-list__empty">No entries in this category.</li>
     </ol>
   </main>
 
-  <footer class="site-footer">
-    <span class="site-footer__name">{profile.name} · {profile.role}</span>
-    <span class="site-footer__updated">Last updated {profile.lastUpdated}</span>
-  </footer>
+  <SiteFooter />
 </BaseLayout>
 
 <script>
@@ -79,17 +76,14 @@ const sortedWork = [...work].sort((a, b) => {
 
     const applyFilter = (slug: string) => {
       list.dataset.filter = slug;
-      let visible = 0;
       for (const row of workRows) {
         const match = slug === "all" || row.dataset.category === slug;
         if (match) {
           row.setAttribute("data-category-match", "");
-          visible += 1;
         } else {
           row.removeAttribute("data-category-match");
         }
       }
-      if (emptyState) emptyState.hidden = visible > 0;
     };
 
     const applySort = (direction: "asc" | "desc") => {
@@ -119,7 +113,7 @@ const sortedWork = [...work].sort((a, b) => {
           const slug = chip.dataset.filterTarget ?? "all";
           for (const other of filterChips) {
             const isActive = other === chip;
-            other.setAttribute("aria-selected", isActive ? "true" : "false");
+            other.setAttribute("aria-pressed", isActive ? "true" : "false");
             if (isActive) {
               other.setAttribute("aria-current", "true");
             } else {

@@ -1,13 +1,5 @@
 import type { WorkEntry } from "@/lib/types";
 
-export function slugify(value: string): string {
-  return value
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
-
 export const work: WorkEntry[] = [
   {
     id: "ddd-layered-backend",
