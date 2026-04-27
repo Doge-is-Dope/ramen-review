@@ -19,7 +19,12 @@ const workSortOptions = [
 ---
 
 <div class="work-filter-bar">
-  <div class="work-filter" role="tablist" aria-label="Filter work by category">
+  <div
+    class="work-filter"
+    role="tablist"
+    aria-label="Filter work by category"
+    data-filter-scroll-position="start"
+  >
     {
       workCategories.map((label) => {
         const slug = slugify(label);
@@ -40,13 +45,14 @@ const workSortOptions = [
     }
   </div>
   <div class="work-sort">
-    <span class="work-sort__label" id="work-sort-label">Sort</span>
+    <span class="work-sort__label" id="work-sort-label">Sort by</span>
     <div class="work-sort__widget">
       <button
         type="button"
         class="work-sort__trigger"
         aria-haspopup="listbox"
         aria-expanded="false"
+        aria-controls="work-sort-menu"
         aria-labelledby="work-sort-label work-sort-current"
         data-sort-trigger
       >
@@ -66,10 +72,12 @@ const workSortOptions = [
         </svg>
       </button>
       <ul
+        id="work-sort-menu"
         class="work-sort__menu"
         role="listbox"
         aria-labelledby="work-sort-label"
         hidden
+        data-state="closed"
         data-sort-menu
       >
         {

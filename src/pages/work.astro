@@ -55,6 +55,8 @@ const sortedWork = [...work].sort((a, b) => {
     const filterChips = document.querySelectorAll<HTMLButtonElement>(
       ".work-filter__chip",
     );
+    const filterScroller =
+      document.querySelector<HTMLDivElement>(".work-filter");
     const sortTrigger = document.querySelector<HTMLButtonElement>(
       "[data-sort-trigger]",
     );
@@ -106,6 +108,10 @@ const sortedWork = [...work].sort((a, b) => {
       if (emptyState) list.appendChild(emptyState);
     };
 
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    );
+
     for (const chip of filterChips) {
       chip.addEventListener(
         "click",
@@ -121,14 +127,55 @@ const sortedWork = [...work].sort((a, b) => {
             }
           }
           applyFilter(slug);
+          chip.scrollIntoView({
+            inline: "nearest",
+            block: "nearest",
+            behavior: reduceMotion.matches ? "auto" : "smooth",
+          });
         },
         { signal },
       );
     }
 
+    if (filterScroller) {
+      let filterFrame = 0;
+      const updateFilterScrollPosition = () => {
+        filterFrame = 0;
+        const maxScroll =
+          filterScroller.scrollWidth - filterScroller.clientWidth;
+        if (maxScroll <= 1) {
+          filterScroller.dataset.filterScrollPosition = "none";
+          return;
+        }
+        if (filterScroller.scrollLeft <= 1) {
+          filterScroller.dataset.filterScrollPosition = "start";
+        } else if (filterScroller.scrollLeft >= maxScroll - 1) {
+          filterScroller.dataset.filterScrollPosition = "end";
+        } else {
+          filterScroller.dataset.filterScrollPosition = "middle";
+        }
+      };
+      const scheduleFilterScrollPosition = () => {
+        if (filterFrame) return;
+        filterFrame = window.requestAnimationFrame(updateFilterScrollPosition);
+      };
+      filterScroller.addEventListener("scroll", scheduleFilterScrollPosition, {
+        passive: true,
+        signal,
+      });
+      window.addEventListener("resize", scheduleFilterScrollPosition, {
+        signal,
+      });
+      signal.addEventListener("abort", () => {
+        if (filterFrame) cancelAnimationFrame(filterFrame);
+      });
+      updateFilterScrollPosition();
+    }
+
     if (sortTrigger && sortMenu && sortCurrent && sortOptions.length) {
       const openMenu = () => {
         sortMenu.hidden = false;
+        sortMenu.dataset.state = "open";
         sortTrigger.setAttribute("aria-expanded", "true");
         const selected =
           sortOptions.find(
@@ -138,7 +185,8 @@ const sortedWork = [...work].sort((a, b) => {
       };
 
       const closeMenu = ({ returnFocus = true } = {}) => {
-        sortMenu.hidden = true;
+        if (sortMenu.hidden) return;
+        sortMenu.dataset.state = "closing";
         sortTrigger.setAttribute("aria-expanded", "false");
         if (returnFocus) sortTrigger.focus();
       };
@@ -160,8 +208,11 @@ const sortedWork = [...work].sort((a, b) => {
       sortTrigger.addEventListener(
         "click",
         () => {
-          if (sortMenu.hidden) openMenu();
-          else closeMenu();
+          if (sortMenu.hidden || sortMenu.dataset.state === "closing") {
+            openMenu();
+          } else {
+            closeMenu();
+          }
         },
         { signal },
       );
@@ -217,10 +268,21 @@ const sortedWork = [...work].sort((a, b) => {
         );
       }
 
+      sortMenu.addEventListener(
+        "animationend",
+        () => {
+          if (sortMenu.dataset.state === "closing") {
+            sortMenu.hidden = true;
+            sortMenu.dataset.state = "closed";
+          }
+        },
+        { signal },
+      );
+
       document.addEventListener(
         "click",
         (event) => {
-          if (sortMenu.hidden) return;
+          if (sortMenu.hidden || sortMenu.dataset.state === "closing") return;
           const target = event.target;
           if (
             target instanceof Node &&
