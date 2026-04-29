@@ -179,6 +179,24 @@ export const work: WorkEntry[] = [
     shippedAt: "2026-03",
   },
   {
+    id: "browser-subagent-prompt-hardening",
+    title: "Snapshot-first browser subagent prompt with raised step budget",
+    summary:
+      "Subagent now requires a fresh page snapshot before any interaction, addresses elements by visible text rather than row position, and verifies the post-navigation URL before claiming success. Per-spec step budget raised from 25 to 50 so multi-step form flows finish without hitting the cap.",
+    category: "Browser automation",
+    surface: "Backend",
+    shippedAt: "2026-04",
+  },
+  {
+    id: "browser-subagent-eval",
+    title: "Eval suite for the browser subagent",
+    summary:
+      "Roughly two dozen browser tasks scored on five axes: correctness, recovery, hallucination, latency, and tool-use shape. Turns vague \"it broke\" reports into a specific failing case and gates every patch before it ships.",
+    category: "Browser automation",
+    surface: "Backend",
+    shippedAt: "2026-04",
+  },
+  {
     id: "singleton-middleware-perf",
     title: "Singleton middleware instances and lazy subagent init",
     summary:
@@ -353,6 +371,15 @@ export const work: WorkEntry[] = [
     title: "Selected-tab ephemeral context attached to messages",
     summary:
       "Current tabs feed into a per-message context field and clear after send. Stops yesterday's selection from quietly riding along on tomorrow's question.",
+    category: "Browser automation",
+    surface: "Frontend",
+    shippedAt: "2026-04",
+  },
+  {
+    id: "cdp-fill-verb-split",
+    title: "CDP fill and type split into separate verbs with a direct focus path",
+    summary:
+      "Replace versus append used to be a flag on a single verb, leaving the agent cycling through fallbacks. Splitting them deleted the ambiguity. Swapped the field-focus path from three simulated mouse events to a direct focus call: fill operations went from about 5,000ms to 40ms.",
     category: "Browser automation",
     surface: "Frontend",
     shippedAt: "2026-04",
