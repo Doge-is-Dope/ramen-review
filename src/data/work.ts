@@ -62,7 +62,7 @@ export const work: WorkEntry[] = [
     id: "langgraph-middleware-stack",
     title: "LangGraph middleware stack on top of LangChain",
     summary:
-      "Composable layers — DynamicToolChoice, ToolMonitor, SubAgent, prompt context — instead of subclassing the agent. Each middleware is independently testable and addable.",
+      "Composable layers (DynamicToolChoice, ToolMonitor, SubAgent, prompt context) instead of subclassing the agent. Each middleware is independently testable and addable.",
     category: "Agent loop",
     surface: "Backend",
     shippedAt: "2026-01",
@@ -118,7 +118,7 @@ export const work: WorkEntry[] = [
     id: "framework-agnostic-sse",
     title: "Framework-agnostic SSE event shape",
     summary:
-      "Text deltas, tool calls, tool results, token usage, finish reason, and disconnect signals — designed against the contract, not the LangChain emitter, so the frontend code is portable across providers.",
+      "Text deltas, tool calls, tool results, token usage, finish reason, and disconnect signals. Designed against the contract, not the LangChain emitter, so the frontend code is portable across providers.",
     category: "Streaming",
     surface: "Backend",
     shippedAt: "2026-01",
@@ -248,7 +248,7 @@ export const work: WorkEntry[] = [
     id: "atomic-mention-pills",
     title: "Atomic @-mention pills with tab metadata",
     summary:
-      "Contenteditable tokens with favicon, title, and URL. Caret-aware deletion, drag-select, and keyboard support — feels like a real tag input, not a regex on a textarea.",
+      "Contenteditable tokens with favicon, title, and URL. Caret-aware deletion, drag-select, and keyboard support. Feels like a real tag input, not a regex on a textarea.",
     category: "Chat UI",
     surface: "Frontend",
     shippedAt: "2026-04",
@@ -342,7 +342,7 @@ export const work: WorkEntry[] = [
     id: "cdp-tool-suite",
     title: "CDP tool suite with narrowed schemas",
     summary:
-      "Click, type, navigate, wait_for_selector, snapshot, and ~25 more — all schema-validated client-side before dispatch. Actionability checks live next to tool execution.",
+      "Click, type, navigate, wait_for_selector, snapshot, and ~25 more, all schema-validated client-side before dispatch. Actionability checks live next to tool execution.",
     category: "Browser automation",
     surface: "Frontend",
     shippedAt: "2026-03",
