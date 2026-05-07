@@ -414,10 +414,12 @@ export const work: WorkEntry[] = [
   },
 ];
 
-const seen = new Set<string>();
-for (const entry of work) {
-  if (seen.has(entry.id)) {
-    throw new Error(`Duplicate work id: ${entry.id}`);
+if (import.meta.env.DEV) {
+  const seen = new Set<string>();
+  for (const entry of work) {
+    if (seen.has(entry.id)) {
+      throw new Error(`Duplicate work id: ${entry.id}`);
+    }
+    seen.add(entry.id);
   }
-  seen.add(entry.id);
 }

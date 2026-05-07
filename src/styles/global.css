@@ -673,7 +673,7 @@ code {
   color: var(--fg);
 }
 
-.work-row__date {
+.work-row__sub {
   font-size: var(--fs-meta);
   color: var(--muted);
 }

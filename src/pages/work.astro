@@ -29,7 +29,7 @@ const sortedWork = [...work].sort((a, b) => {
 
     <WorkFilterBar />
 
-    <ol class="work-list" data-filter="all" data-sort="desc">
+    <ol class="work-list" data-filter="all">
       {sortedWork.map((entry) => <WorkRow entry={entry} />)}
       <li class="work-list__empty">No entries in this category.</li>
     </ol>
@@ -76,18 +76,16 @@ const sortedWork = [...work].sort((a, b) => {
 
     const applyFilter = (slug: string) => {
       list.dataset.filter = slug;
+      if (slug === "all") return;
       for (const row of workRows) {
-        const match = slug === "all" || row.dataset.category === slug;
-        if (match) {
-          row.setAttribute("data-category-match", "");
-        } else {
-          row.removeAttribute("data-category-match");
-        }
+        row.toggleAttribute(
+          "data-category-match",
+          row.dataset.category === slug,
+        );
       }
     };
 
     const applySort = (direction: "asc" | "desc") => {
-      list.dataset.sort = direction;
       const sortedRows = [...workRows].sort((a, b) => {
         const dateA = a.dataset.shippedAt ?? "";
         const dateB = b.dataset.shippedAt ?? "";
@@ -112,13 +110,10 @@ const sortedWork = [...work].sort((a, b) => {
         () => {
           const slug = chip.dataset.filterTarget ?? "all";
           for (const other of filterChips) {
-            const isActive = other === chip;
-            other.setAttribute("aria-pressed", isActive ? "true" : "false");
-            if (isActive) {
-              other.setAttribute("aria-current", "true");
-            } else {
-              other.removeAttribute("aria-current");
-            }
+            other.setAttribute(
+              "aria-pressed",
+              other === chip ? "true" : "false",
+            );
           }
           applyFilter(slug);
           chip.scrollIntoView({
@@ -216,6 +211,7 @@ const sortedWork = [...work].sort((a, b) => {
         (event) => {
           if (
             event.key === "ArrowDown" ||
+            event.key === "ArrowUp" ||
             event.key === "Enter" ||
             event.key === " "
           ) {
@@ -289,8 +285,6 @@ const sortedWork = [...work].sort((a, b) => {
         { signal },
       );
     }
-
-    applyFilter("all");
   }
 
   document.addEventListener("astro:page-load", setupWorkPage);

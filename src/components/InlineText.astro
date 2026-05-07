@@ -1,0 +1,13 @@
+---
+import { splitInline } from "@/lib/inline";
+
+type Props = { text: string };
+
+const { text } = Astro.props;
+---
+
+{
+  splitInline(text).map((part) =>
+    typeof part === "string" ? part : <code>{part.code}</code>,
+  )
+}
